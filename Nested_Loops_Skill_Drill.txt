@@ -1,0 +1,19 @@
+'Nested Loops Skill Drill
+'1. Create a nested for loop that puts a 1 in each cell from A1 to J10.
+'2. Modify the nested for loop to put the sum of the row number and column number into each cell.
+'3. Modify the nested for loop again to fill in any rectangular block of cells for m columns and n rows.
+
+Sub NestedLoop()
+
+'Selecting Drill Worksheet
+Worksheets("Drill Skill").Activate
+
+    'Iterating through rows 1 to 10
+    For r = Rows(1:10)
+        'Iterating through columns 1 to 10
+        For c = Coulumns(1:10)
+            'Set cell to 1
+            Cells(i, i).Value = 1
+        Next c
+    Next r
+End Sub

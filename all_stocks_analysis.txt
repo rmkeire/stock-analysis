@@ -1,0 +1,63 @@
+'Analyzing All Stocks for Total Daily Volume and Annual Return
+
+Sub AllStocksAnalysis()
+    
+    Worksheets("All Stocks Analysis").Activate
+    
+    Range("A1").Value = "All Stocks (2018)"
+    
+    'Creating a header row
+
+    Cells(3, 1).Value = "Ticker"
+    Cells(3, 2).Value = "Total Daily Volume"
+    Cells(3, 3).Value = "Return"
+
+    Dim tickers(12) As String
+
+    Worksheets("2018").Activate
+
+    'Setting inital trading volume to zero
+    totalVolume = 0
+
+    'Setting Starting Price
+    Dim startingPrice As Double
+
+    'Setting Ending Price
+    Dim endingPrice As Double
+
+    'Calculating the number of rows to loop over
+    'https://stackoverflow.com/questions/18088729/row-count-where-data-exists
+    RowCount = Cells(Rows.Count, "A").End(xlUp).Row
+
+    'Iterating over each row
+    For i = 2 To RowCount
+
+        'Calculating Total Volume Traded
+        If Cells(i, 1).Value = "DQ" Then
+            totalVolume = totalVolume + Cells(i, 8).Value
+        End If
+
+    'Calculating Annual Return for 2018
+
+        'Calculating Starting Price
+        If Cells(i, 1).Value = "DQ" And Cells(i - 1, 1).Value <> "DQ" Then
+            startingPrice = Cells(i, 6).Value
+        End If    
+
+        'Calculating Ending Price
+        If Cells(i, 1).Value = "DQ" And Cells(i + 1, 1).Value <> "DQ" Then
+            endingPrice = Cells(i, 6).Value
+        End If
+
+    Next i
+
+    'Activating DQ Analysis Worksheet to fill in calculated values
+    Worksheets("DQ Analysis").Activate
+
+    Cells(4, 1).Value = 2018
+
+    Cells(4, 2).Value = totalVolume
+
+    Cells(4, 3).Value = endingPrice / startingPrice - 1
+
+End Sub
