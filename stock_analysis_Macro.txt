@@ -1,13 +1,3 @@
-Sub MacroCheck()
-
-Dim testMessage As String
-
-testMessage = "Hello World!"
-
-MsgBox (testMessage)
-
-End Sub
-
 Sub DQAnalysis()
     
     Worksheets("DQ Analysis").Activate
@@ -49,5 +39,5 @@ Sub DQAnalysis()
     Worksheets("DQAnalysis).Activate
     Cells(4, 1).Value = 2018
     Cells(4, 2).Value = totalVolume
-    
+
 End Sub
