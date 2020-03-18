@@ -10,15 +10,10 @@ Sub DQAnalysis()
     Cells(3, 2).Value = "Total Daily Volume"
     Cells(3, 3).Value = "Return"
 
-    'Increase total Volume
-
     Worksheets("2018").Activate
 
+    'Setting inital trading volume to zero
     totalVolume = 0
-
-    rowStart = 2
-
-    rowEnd = 3013
 
     'Setting Starting Price
     Dim startingPrice As Double
@@ -26,8 +21,12 @@ Sub DQAnalysis()
     'Setting Ending Price
     Dim endingPrice As Double
 
+    'Calculating the number of rows to loop over
+    'https://stackoverflow.com/questions/18088729/row-count-where-data-exists
+    RowCount = Cells(Rows.Count, "A").End(xlUp).Row
+
     'Iterating over each row
-    For i = rowStart To rowEnd
+    For i = 2 To RowCount
 
         'Calculating Total Volume Traded
         If Cells(i, 1).Value = "DQ" Then
@@ -37,19 +36,19 @@ Sub DQAnalysis()
     'Calculating Annual Return for 2018
 
         'Calculating Starting Price
-        If Cells(i, 1).Value = "DQ" And Cells(i-1, 1).Value <> "DQ" Then
+        If Cells(i, 1).Value = "DQ" And Cells(i - 1, 1).Value <> "DQ" Then
             startingPrice = Cells(i, 6).Value
         End If    
 
         'Calculating Ending Price
-        If Cells(i, 1).Value = "DQ" And Cells(i-1, 1).Value <> "DQ" Then
-            endingPrice = Cells(i, 6)
+        If Cells(i, 1).Value = "DQ" And Cells(i + 1, 1).Value <> "DQ" Then
+            endingPrice = Cells(i, 6).Value
         End If
 
     Next i
 
     'Activating DQ Analysis Worksheet to fill in calculated values
-    Worksheets("DQ Analysis).Activate
+    Worksheets("DQ Analysis").Activate
 
     Cells(4, 1).Value = 2018
 
