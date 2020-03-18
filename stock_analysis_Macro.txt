@@ -20,16 +20,41 @@ Sub DQAnalysis()
 
     rowEnd = 3013
 
+    'Setting Starting Price
+    Dim startingPrice As Double
+
+    'Setting Ending Price
+    Dim endingPrice As Double
+
+    'Iterating over each row
     For i = rowStart To rowEnd
+
+        'Calculating Total Volume Traded
         If Cells(i, 1).Value = "DQ" Then
             totalVolume = totalVolume + Cells(i, 8).Value
         End If
+
+    'Calculating Annual Return for 2018
+
+        'Calculating Starting Price
+        If Cells(i, 1).Value = "DQ" And Cells(i-1, 1).Value <> "DQ" Then
+            startingPrice = Cells(i, 6).Value
+        End If    
+
+        'Calculating Ending Price
+        If Cells(i, 1).Value = "DQ" And Cells(i-1, 1).Value <> "DQ" Then
+            endingPrice = Cells(i, 6)
+        End If
+
     Next i
 
+    'Activating DQ Analysis Worksheet to fill in calculated values
     Worksheets("DQ Analysis).Activate
 
     Cells(4, 1).Value = 2018
 
     Cells(4, 2).Value = totalVolume
+
+    Cells(4, 3).Value = endingPrice / startingPrice - 1
 
 End Sub
