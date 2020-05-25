@@ -1,0 +1,109 @@
+Sub AllStocksAnalysis()
+    Worksheets("All Stocks Analysis").Activate
+
+    yearValue = InputBox("What year would you like to run the analysis on?")
+    
+    Range("A1").Value = "All Stocks (" + yearValue + ")"
+
+    'Create header row
+    Cells(3, 1).Value = "Ticker"
+    Cells(3, 2).Value = "Total Daily Volume"
+    Cells(3, 3).Value = "Return"
+    
+    'Create an array for tickers
+    Dim tickers(12) As String
+    tickers(0) = "AY"
+    tickers(1) = "CSIQ"
+    tickers(2) = "DQ"
+    tickers(3) = "ENPH"
+    tickers(4) = "FSLR"
+    tickers(5) = "HASI"
+    tickers(6) = "JKS"
+    tickers(7) = "RUN"
+    tickers(8) = "SEDG"
+    tickers(9) = "SPWR"
+    tickers(10) = "TERP"
+    tickers(11) = "VSLR"
+    
+    Dim startingPrice As Currency
+    Dim endingPrice As Currency
+    
+    Worksheets(yearValue).Activate
+    
+    'Determine number of rows to loop through
+    RowCount = Cells(Rows.Count, "A").End(xlUp).Row
+    
+    For i = 0 To 11
+    
+        ticker = tickers(i)
+        totalVolume = 0
+        
+        Worksheets(yearValue).Activate
+        For j = 2 To RowCount
+        
+            'Determine stock's total volume traded
+            If Cells(j, 1).Value = ticker Then
+                totalVolume = totalVolume + Cells(j, 8).Value
+            End If
+            
+            'Get starting price
+            If Cells(j - 1, 1).Value <> ticker And Cells(j, 1).Value = ticker Then
+                startingPrice = Cells(j, 6).Value
+            End If
+            
+            'Get ending price
+            If Cells(j + 1, 1).Value <> ticker And Cells(j, 1).Value = ticker Then
+                endingPrice = Cells(j, 6).Value
+                
+            End If
+            
+        Next j
+    
+                'Formatting output
+        Worksheets("All Stocks Analysis").Activate
+        Range("A3:C3").Font.FontStyle = "Bold"
+        Range("A3:C3").Borders(xlEdgeBottom).LineStyle = xlContinuous
+        Range("B4:B15").NumberFormat = "$#,##0"
+        Range("C4:C15").NumberFormat = "0.00%"
+        Columns("B").AutoFit
+        
+        'Output current ticker data
+        Worksheets("All Stocks Analysis").Activate
+        Cells(4 + i, 1).Value = ticker
+        Cells(4 + i, 2).Value = totalVolume
+        Cells(4 + i, 3).Value = endingPrice / startingPrice - 1
+            
+    Next i
+    
+    dataRowStart = 4
+    dataRowEnd = 15
+        
+    For k = dataRowStart To dataRowEnd
+            
+        If Cells(k, 3) > 0 Then
+        
+        'Color the cell green
+        Cells(k, 3).Interior.Color = vbGreen
+        
+        ElseIf Cells(k, 3) < 0 Then
+        
+        'Color the cell red
+        Cells(k, 3).Interior.Color = vbRed
+        
+        Else
+        
+        'Clear the cell color
+        Cells(k, 3).Interior.Color = xlNone
+        
+        End If
+    
+    Next k
+    
+End Sub
+
+Sub ClearWorksheet2()
+
+    Cells.Clear
+
+End Sub
+
