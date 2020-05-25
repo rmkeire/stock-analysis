@@ -1,4 +1,11 @@
 # stock-analysis
+
+VBA macro used to determine the total daily volume and return.
+
 ## Module 2
-# challenge
-  Attempted to refactor the program.
+
+Calculated return and total daily volume for DAQO.
+
+## challenge
+
+Refactored macro for efficiency and to analyze all stocks.
